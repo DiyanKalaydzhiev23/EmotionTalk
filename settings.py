@@ -11,6 +11,7 @@ ALLOWED_HOSTS = []
 
 MY_APPS = [
     'EmotionTalk.auth_app',
+    'EmotionTalk.emotion_talk_app'
 ]
 
 INSTALLED_APPS = [

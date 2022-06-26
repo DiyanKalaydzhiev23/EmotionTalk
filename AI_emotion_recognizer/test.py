@@ -109,6 +109,14 @@ def record_to_file(path):
     wf.close()
 
 
+def recognize_emotion():
+    model = pickle.load(open("result/mlp_classifier.model", "rb"))
+    filename = "test.wav"
+    features = extract_feature(filename, mfcc=True, chroma=True, mel=True).reshape(1, -1)
+
+    return model.predict(features)[0]
+
+
 if __name__ == "__main__":
     model = pickle.load(open("result/mlp_classifier.model", "rb"))
     print("Please talk")
@@ -120,4 +128,3 @@ if __name__ == "__main__":
     result = model.predict(features)[0]
 
     print("result:", result)
-    

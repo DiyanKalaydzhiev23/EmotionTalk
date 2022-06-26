@@ -73,4 +73,3 @@ def load_data(test_size=0.2):
         y.append(emotion)
 
     return train_test_split(np.array(X), y, test_size=test_size, random_state=7)
-
