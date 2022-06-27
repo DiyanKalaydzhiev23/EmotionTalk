@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from EmotionTalk.auth_app.models import Profile
 from EmotionTalk.auth_app.serializers import ProfileSerializer
 from EmotionTalk.emotion_talk_app.serializers import RecordingSerializer
-from EmotionTalk.AI_emotion_recognizer.test import recognize_emotion
+from EmotionTalk.AI_emotion_recognizer.tasks import recognize_emotion
 
 
 UserModel = get_user_model()

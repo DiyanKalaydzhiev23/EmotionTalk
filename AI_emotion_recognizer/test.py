@@ -5,11 +5,8 @@ from sys import byteorder
 from array import array
 from struct import pack
 
-from celery import shared_task
-from django.contrib.auth import get_user_model
-
 from EmotionTalk.AI_emotion_recognizer.utils import extract_feature
-from EmotionTalk.auth_app.models import Profile
+
 
 THRESHOLD = 500
 CHUNK_SIZE = 1024
@@ -17,6 +14,7 @@ FORMAT = pyaudio.paInt16
 RATE = 16000
 
 SILENCE = 30
+
 
 def is_silent(snd_data):
     return max(snd_data) < THRESHOLD
@@ -111,33 +109,14 @@ def record_to_file(path):
     wf.close()
 
 
-@shared_task
-def recognize_emotion(filename, owner_id):
-    model = pickle.load(open("EmotionTalk/AI_emotion_recognizer/result/mlp_classifier.model", "rb"))
-    filename = "EmotionTalk/AI_emotion_recognizer/test.wav"
+if __name__ == "__main__":
+    model = pickle.load(open("result/mlp_classifier.model", "rb"))
+    print("Please talk")
+    filename = "test.wav"
+
+    record_to_file(filename)
     features = extract_feature(filename, mfcc=True, chroma=True, mel=True).reshape(1, -1)
 
-    emotion = model.predict(features)[0]
+    result = model.predict(features)[0]
 
-    user = Profile.objects.get(user_id=owner_id)
-
-    if len(user.last_emotions) == user.MAX_EMOTIONS:
-        user.last_emotions.pop(0)
-
-    user.last_emotions.append(emotion)
-    user.save()
-
-#
-# if __name__ == "__main__":
-# #     # model = pickle.load(open("result/mlp_classifier.model", "rb"))
-# #     # print("Please talk")
-# #     # filename = "test.wav"
-# #     #
-# #     # record_to_file(filename)
-# #     # features = extract_feature(filename, mfcc=True, chroma=True, mel=True).reshape(1, -1)
-# #     #
-# #     # result = model.predict(features)[0]
-# #     #
-# #     # print("result:", result)
-# #
-#     print(recognize_emotion('fwr'))
+    print("result:", result)
