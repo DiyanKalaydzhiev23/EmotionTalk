@@ -1,8 +1,8 @@
 import soundfile
 import numpy as np
-import librosa
 import glob
 import os
+from EmotionTalk import librosa
 from sklearn.model_selection import train_test_split
 
 

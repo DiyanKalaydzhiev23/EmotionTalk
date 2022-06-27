@@ -24,6 +24,8 @@ class EmotionTalkUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin
 
 
 class Profile(models.Model):
+    MAX_EMOTIONS = 50
+
     email = models.EmailField(
         unique=True,
     )
@@ -31,6 +33,16 @@ class Profile(models.Model):
     image = models.ImageField(
         upload_to='images',
         default='images/default_image_qvmqoi.png',
+    )
+
+    first_name = models.CharField(
+        max_length=50,
+        default='',
+    )
+
+    last_name = models.CharField(
+        max_length=50,
+        default='',
     )
 
     receive_data_users = ArrayField(
@@ -41,6 +53,14 @@ class Profile(models.Model):
     pending_users_to_send_data_to = ArrayField(
         models.IntegerField(),
         default=list,
+    )
+
+    last_emotions = ArrayField(
+        models.CharField(
+            max_length=20,
+        ),
+        default=list,
+        size=MAX_EMOTIONS,
     )
 
     user = models.OneToOneField(
