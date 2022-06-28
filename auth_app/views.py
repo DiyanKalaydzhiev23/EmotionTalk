@@ -66,3 +66,15 @@ class LoginUserView(views.APIView):
             return Response(data, status=status.HTTP_201_CREATED)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProfileView(views.APIView):
+    def get(self, request, user_id, user_to_show_id):
+        context = {
+            "is_owner": True if user_id == user_to_show_id else False,
+            "user": UserSerializer(UserModel.objects.get(pk=user_to_show_id)).data,
+            "id": user_to_show_id,
+        }
+
+        return Response(context, status=status.HTTP_200_OK)
+

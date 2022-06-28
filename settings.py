@@ -116,3 +116,9 @@ CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TASK_RESULT_SERIALIZER = 'json'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'quizmasterappteam@gmail.com'
+EMAIL_HOST_PASSWORD = 'pwxlnzwtlpgfxozt'
+EMAIL_PORT = 587

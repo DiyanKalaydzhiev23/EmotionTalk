@@ -105,7 +105,6 @@ class GetEmotionFromRecordingView(views.APIView):
 
         recognize_emotion.delay('ywfu', 1)
 
-
         return Response(
             status=status.HTTP_200_OK,
         )
