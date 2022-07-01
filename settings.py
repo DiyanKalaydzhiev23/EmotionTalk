@@ -1,5 +1,7 @@
+import os
 from pathlib import Path
 
+from EmotionTalk import AI_emotion_recognizer
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -7,7 +9,7 @@ SECRET_KEY = 'django-insecure-+c8w!bti-rb1+ifig$*3cvabprl_07ygi9uy)%*vcr92v*aoz$
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 MY_APPS = [
     'EmotionTalk.auth_app',
@@ -15,6 +17,7 @@ MY_APPS = [
 ]
 
 INSTALLED_APPS = [
+    "corsheaders",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -28,6 +31,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -40,6 +44,15 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
+CORS_ALLOW_HEADERS = (
+    'content-disposition', 'accept-encoding',
+    'content-type', 'accept', 'origin', 'authorization',
+)
 
 ROOT_URLCONF = 'EmotionTalk.urls'
 
@@ -103,13 +116,13 @@ AUTH_USER_MODEL = 'auth_app.EmotionTalkUser'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dhqp5qtsw',
-    'API_KEY': '593912372856725',
-    'API_SECRET': 'iedqyBTS3_zeKMh0t1vR7HjkpZA',
-}
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': 'dhqp5qtsw',
+#     'API_KEY': '593912372856725',
+#     'API_SECRET': 'iedqyBTS3_zeKMh0t1vR7HjkpZA',
+# }
+#
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
@@ -122,3 +135,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'quizmasterappteam@gmail.com'
 EMAIL_HOST_PASSWORD = 'pwxlnzwtlpgfxozt'
 EMAIL_PORT = 587
+
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'EmotionTalk/EmotionTalk/AI_emotion_recognizer/recordings')
+
+# URL used to access the media
+MEDIA_URL = '/media/'

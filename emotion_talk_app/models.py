@@ -7,7 +7,7 @@ UserModel = get_user_model()
 
 class Recording(models.Model):
     recording = models.FileField(
-        upload_to='EmotionTalk/AI_emotion_recognizer/recordings/',
+        upload_to='',
     )
 
     owner_id = models.IntegerField()

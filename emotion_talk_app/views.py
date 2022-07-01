@@ -2,6 +2,7 @@ import random
 
 from django.contrib.auth import get_user_model
 from rest_framework import views, status
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 
 from EmotionTalk.auth_app.models import Profile
@@ -37,6 +38,19 @@ class SearchForUsersView(views.APIView):
         ]
 
         return Response({"users": users}, status=status.HTTP_200_OK)
+
+
+class SendUserRequestView(views.APIView):
+    def post(self, request):
+        user_id = self.request.POST.get('user_id')
+        user_to_send_request_id = self.request.POST.get('user_to_send_request_id')
+
+        user = Profile.objects.get(user_id=user_id)
+        user_to_send_request = Profile.objects.get(user_id=user_to_send_request_id)
+
+        user_to_send_request.pending_users_to_send_data_to.append(user.username)
+
+        return Response(status=status.HTTP_200_OK)
 
 
 class PendingUsersRequestsView(views.APIView):
@@ -96,15 +110,19 @@ class ReceiveDataUsersView(views.APIView):
 
 
 class GetEmotionFromRecordingView(views.APIView):
-    def get(self, request, user_id):
-        # recording = self.request.FILES.get('recording')
-        #
-        # serializer = RecordingSerializer(recording, user_id)
-        # serializer.is_valid(raise_exception=True)
-        # serializer.save()
+    parser_classes = (MultiPartParser, FormParser)
+    permission_classes = []
 
-        recognize_emotion.delay('ywfu', 1)
+    def post(self, request, user_id):
+        file_serializer = RecordingSerializer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save()
 
-        return Response(
-            status=status.HTTP_200_OK,
-        )
+            file_name = file_serializer.data.get('recording').lstrip('/media/')
+            owner_id = file_serializer.data.get('owner_id')
+
+            recognize_emotion.delay(file_name, owner_id)
+
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

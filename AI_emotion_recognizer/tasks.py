@@ -11,15 +11,18 @@ def convert_audio(audio_path, target_path):
     os.system(f"ffmpeg -i {audio_path} -ac 1 -ar 16000 {target_path}")
     os.remove(audio_path)
 
+
 def parse_arguments(filename):
     import argparse
     parser = argparse.ArgumentParser()
 
+    new_filename = filename.lstrip('v')
+
     parser.add_argument("audio_path")
     parser.add_argument("target_path")
 
-    args = parser.parse_args([os.path.dirname(os.path.realpath(__file__)) + f'\\{filename}' + '.wav',
-                              os.path.dirname(os.path.realpath(__file__)) + f'\\{filename}q' + '.wav'])
+    args = parser.parse_args([os.path.dirname(os.path.realpath(__file__)) + f'\\recordings\\{filename}',
+                              os.path.dirname(os.path.realpath(__file__)) + f'\\recordings\\{new_filename}'])
     audio_path = args.audio_path
     target_path = args.target_path
 
@@ -35,11 +38,16 @@ def parse_arguments(filename):
 @shared_task
 def recognize_emotion(filename, owner_id):
     model = pickle.load(open("EmotionTalk/AI_emotion_recognizer/result/mlp_classifier.model", "rb"))
-    filename = "test"
 
-    # parse_arguments(filename)
+    parse_arguments(filename)
+    new_filename = filename.lstrip('v')
 
-    features = extract_feature(os.path.dirname(os.path.realpath(__file__)) + '\\testq.wav', mfcc=True, chroma=True, mel=True).reshape(1, -1)
+    features = extract_feature(
+        os.path.dirname(os.path.realpath(__file__)) + f'\\recordings\\{new_filename}',
+        mfcc=True,
+        chroma=True,
+        mel=True)\
+        .reshape(1, -1)
 
     emotion = model.predict(features)[0]
 
