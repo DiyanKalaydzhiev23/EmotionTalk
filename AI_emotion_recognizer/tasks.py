@@ -5,6 +5,7 @@ from celery import shared_task
 
 from EmotionTalk.AI_emotion_recognizer.utils import extract_feature
 from EmotionTalk.auth_app.models import Profile
+from EmotionTalk.emotion_talk_app.models import Recording
 
 
 def convert_audio(audio_path, target_path):
@@ -39,7 +40,7 @@ def parse_arguments(filename):
 def recognize_emotion(filename, owner_id):
     model = pickle.load(open("EmotionTalk/AI_emotion_recognizer/result/mlp_classifier.model", "rb"))
 
-    parse_arguments(filename)
+    target_path = parse_arguments(filename)
     new_filename = filename.lstrip('v')
 
     features = extract_feature(
@@ -48,6 +49,10 @@ def recognize_emotion(filename, owner_id):
         chroma=True,
         mel=True)\
         .reshape(1, -1)
+
+    recording = Recording.objects.get(recording=filename)
+    recording.delete()
+    os.remove(target_path)
 
     emotion = model.predict(features)[0]
 
