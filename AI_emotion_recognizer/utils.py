@@ -20,6 +20,7 @@ int2emotion = {
 AVAILABLE_EMOTIONS = {
     "angry",
     "neutral",
+    "sad",
     "happy"
 }
 

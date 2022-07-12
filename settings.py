@@ -40,6 +40,9 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
@@ -51,7 +54,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 CORS_ALLOW_HEADERS = (
     'content-disposition', 'accept-encoding',
-    'content-type', 'accept', 'origin', 'authorization',
+    'content-type', 'accept', 'origin', 'authorization'
 )
 
 ROOT_URLCONF = 'EmotionTalk.urls'

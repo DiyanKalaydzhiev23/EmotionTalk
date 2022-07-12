@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model, authenticate, login
 
 from rest_framework import generics, status, views
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from EmotionTalk.auth_app.serializers import UserSerializer
@@ -69,6 +70,8 @@ class LoginUserView(views.APIView):
 
 
 class ProfileView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, user_id, user_to_show_id):
         context = {
             "is_owner": True if user_id == user_to_show_id else False,

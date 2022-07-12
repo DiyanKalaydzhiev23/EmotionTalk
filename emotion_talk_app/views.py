@@ -3,10 +3,11 @@ import random
 from django.contrib.auth import get_user_model
 from rest_framework import views, status
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from EmotionTalk.auth_app.models import Profile
-from EmotionTalk.auth_app.serializers import ProfileSerializer
+from EmotionTalk.auth_app.serializers import ProfileSerializer, UserSerializer
 from EmotionTalk.emotion_talk_app.serializers import RecordingSerializer
 from EmotionTalk.AI_emotion_recognizer.tasks import recognize_emotion
 
@@ -15,11 +16,13 @@ UserModel = get_user_model()
 
 
 class SearchForUsersView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, user_id):
         searched_username = self.request.query_params.get('username')
 
         if searched_username:
-            users = UserModel.objects.get(username__icontains=searched_username)
+            users = UserModel.objects.filter(username__icontains=searched_username)
         else:
             all_users = UserModel.objects.all()
             users_to_show = 20
@@ -30,10 +33,7 @@ class SearchForUsersView(views.APIView):
             users = random.sample((list(all_users)), users_to_show)
 
         users = [
-            {
-                'profile': ProfileSerializer(Profile.objects.get(pk=user.id)).data,
-                'id': user.id
-            }
+            UserSerializer(UserModel.objects.get(pk=user.id)).data
             for user in users if user_id != user.id
         ]
 
@@ -41,19 +41,25 @@ class SearchForUsersView(views.APIView):
 
 
 class SendUserRequestView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
-        user_id = self.request.POST.get('user_id')
-        user_to_send_request_id = self.request.POST.get('user_to_send_request_id')
+        user_id = self.request.data.get('user_id')
+        user_to_send_request_id = self.request.data.get('user_to_send_request_id')
 
-        user = Profile.objects.get(user_id=user_id)
         user_to_send_request = Profile.objects.get(user_id=user_to_send_request_id)
+        user_to_send_request.pending_users_to_send_data_to.append(user_id)
+        user_to_send_request.save()
 
-        user_to_send_request.pending_users_to_send_data_to.append(user.username)
-
-        return Response(status=status.HTTP_200_OK)
+        return Response(
+            {'user_id': user_id},
+            status=status.HTTP_200_OK
+        )
 
 
 class PendingUsersRequestsView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, user_id):
         profile = Profile.objects.get(pk=user_id)
         pending_users_requests = [
@@ -69,30 +75,45 @@ class PendingUsersRequestsView(views.APIView):
 
     def post(self, request, user_id):
         profile = Profile.objects.get(pk=user_id)
-        username = self.request.POST.get('username')
-        choice = self.request.POST.get('choice')
+        user_to_handle_id = self.request.data.get('user_id')
+        choice = self.request.data.get('choice')
 
-        profile.pending_users_to_send_data_to.remove(username)
+        profile.pending_users_to_send_data_to.remove(user_to_handle_id)
 
         if choice == 'accept':
-            profile.receive_data_users.push(username)
+            profile.receive_data_users.append(user_to_handle_id)
 
         profile.save()
 
-        return Response(status=status.HTTP_200_OK)
+        return Response(
+            {'user_id': user_id},
+            status=status.HTTP_200_OK
+        )
 
 
 class ReceiveDataUsersView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, data_user_id):
-        receive_data_users = Profile.objects.get(user_id=data_user_id)
+        receive_data_users = Profile.objects.get(user_id=data_user_id).receive_data_users
         data_users_and_their_emotions = []
 
         for data_user_id in receive_data_users:
             profile = Profile.objects.get(user_id=data_user_id)
 
-            happy_percentage = profile.last_emotions.count('happy') / len(profile.last_emotions) * 100
-            neutral_percentage = profile.last_emotions.count('neutral') / len(profile.last_emotions) * 100
-            angry_percentage = profile.last_emotions.count('angry') / len(profile.last_emotions) * 100
+            happy_percentage = 0
+            neutral_percentage = 0
+            angry_percentage = 0
+            sad_percentage = 0
+
+            if profile.last_emotions.count('happy'):
+                happy_percentage = profile.last_emotions.count('happy') / len(profile.last_emotions) * 100
+            if profile.last_emotions.count('neutral'):
+                neutral_percentage = profile.last_emotions.count('neutral') / len(profile.last_emotions) * 100
+            if profile.last_emotions.count('angry'):
+                angry_percentage = profile.last_emotions.count('angry') / len(profile.last_emotions) * 100
+            if profile.last_emotions.count('sad'):
+                sad_percentage = profile.last_emotions.count('sad') / len(profile.last_emotions) * 100
 
             data_users_and_their_emotions.append({
                 'user_id': data_user_id,
@@ -101,6 +122,7 @@ class ReceiveDataUsersView(views.APIView):
                 'happy_percentage': happy_percentage,
                 'neutral_percentage': neutral_percentage,
                 'angry_percentage': angry_percentage,
+                'sad_percentage': sad_percentage,
             })
 
         return Response(

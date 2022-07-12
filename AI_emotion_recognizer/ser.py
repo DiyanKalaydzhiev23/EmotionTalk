@@ -7,7 +7,7 @@ import os
 import pickle
 
 
-X_train, X_test, y_train, y_test = load_data(test_size=0.25)
+X_train, X_test, y_train, y_test = load_data(test_size=1)
 
 print("[+] Number of training samples:", X_train.shape[0])
 
