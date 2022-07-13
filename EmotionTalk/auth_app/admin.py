@@ -4,6 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 
 from EmotionTalk.auth_app.models import Profile
 
+
 UserModel = get_user_model()
 
 

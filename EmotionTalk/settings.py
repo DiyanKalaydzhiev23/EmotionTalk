@@ -1,12 +1,14 @@
 import os
+import decouple
 from pathlib import Path
 from EmotionTalk import AI_emotion_recognizer
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-+c8w!bti-rb1+ifig$*3cvabprl_07ygi9uy)%*vcr92v*aoz$'
+SECRET_KEY = decouple.config('SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
@@ -77,7 +79,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'EmotionTalk.wsgi.application'
 
-if not DEBUG:
+if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -92,10 +94,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'dci07p0afko749',
-            'USER': 'ejgfvcvtjupxuu',
-            'PASSWORD': 'a7c6228db8a2c94ed9ca15e0cf3b7f174f5ecb836ea1f7ea31146062c6aa8a35',
-            'HOST': 'ec2-54-228-32-29.eu-west-1.compute.amazonaws.com',
+            'NAME': decouple.config('POSTGRES_NAME'),
+            'USER': decouple.config('POSTGRES_USER'),
+            'PASSWORD': decouple.config('POSTGRES_PASSWORD'),
+            'HOST': decouple.config('POSTGRES_HOST'),
             'PORT': '5432',
         }
     }
@@ -132,16 +134,18 @@ AUTH_USER_MODEL = 'auth_app.EmotionTalkUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dhqp5qtsw',
-    'API_KEY': '593912372856725',
-    'API_SECRET': 'iedqyBTS3_zeKMh0t1vR7HjkpZA',
+    'CLOUD_NAME': decouple.config('CLOUD_NAME'),
+    'API_KEY': decouple.config('API_KEY'),
+    'API_SECRET': decouple.config('API_SECRET')
 }
-if not DEBUG:
+
+if DEBUG:
     CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
     CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 else:
-    CELERY_BROKER_URL = 'redis://default:Lgd9A06cD6i9AgxFSblzBoid1QWTmjNk@redis-15182.c300.eu-central-1-1.ec2.cloud.redislabs.com:15182'
-    CELERY_RESULT_BACKEND = 'redis://default:Lgd9A06cD6i9AgxFSblzBoid1QWTmjNk@redis-15182.c300.eu-central-1-1.ec2.cloud.redislabs.com:15182'
+    CELERY_BROKER_URL = decouple.config('CELERY_BROKER_URL')
+    CELERY_RESULT_BACKEND = decouple.config('CELERY_BROKER_URL')
+
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TASK_RESULT_SERIALIZER = 'json'
@@ -149,10 +153,8 @@ CELERY_TASK_RESULT_SERIALIZER = 'json'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'quizmasterappteam@gmail.com'
-EMAIL_HOST_PASSWORD = 'pwxlnzwtlpgfxozt'
+EMAIL_HOST_PASSWORD = decouple.config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'EmotionTalk/EmotionTalk/AI_emotion_recognizer/recordings')
-
-# URL used to access the media
 MEDIA_URL = '/media/'
