@@ -77,16 +77,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'EmotionTalk.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'emotion_talk_db',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'emotion_talk_db',
+            'USER': 'postgres',
+            'PASSWORD': 'admin',
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'dci07p0afko749',
+            'USER': 'ejgfvcvtjupxuu',
+            'PASSWORD': 'a7c6228db8a2c94ed9ca15e0cf3b7f174f5ecb836ea1f7ea31146062c6aa8a35',
+            'HOST': 'ec2-54-228-32-29.eu-west-1.compute.amazonaws.com',
+            'PORT': '5432',
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -123,9 +135,12 @@ CLOUDINARY_STORAGE = {
     'API_KEY': '593912372856725',
     'API_SECRET': 'iedqyBTS3_zeKMh0t1vR7HjkpZA',
 }
-
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+if DEBUG:
+    CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+    CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+else:
+    CELERY_BROKER_URL = 'redis-15182.c300.eu-central-1-1.ec2.cloud.redislabs.com:15182'
+    CELERY_RESULT_BACKEND = 'redis-15182.c300.eu-central-1-1.ec2.cloud.redislabs.com:15182'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TASK_RESULT_SERIALIZER = 'json'
