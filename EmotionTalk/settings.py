@@ -97,7 +97,7 @@ else:
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv('POSTGRES_NAME', decouple.config('POSTGRES_NAME')),
             'USER': os.getenv('POSTGRES_USER', decouple.config('POSTGRES_USER')),
-            'PASSWORD': os.getenv('POSTGRES_NAME', decouple.config('POSTGRES_PASSWORD')),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD', decouple.config('POSTGRES_PASSWORD')),
             'HOST': os.getenv('POSTGRES_HOST', decouple.config('POSTGRES_HOST')),
             'PORT': '5432',
         }
