@@ -157,5 +157,5 @@ EMAIL_HOST_USER = 'quizmasterappteam@gmail.com'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', decouple.config('EMAIL_HOST_PASSWORD'))
 EMAIL_PORT = 587
 
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'EmotionTalk/EmotionTalk/AI_emotion_recognizer/recordings')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'EmotionTalk/EmotionTalk/AI_emotion_recognizer/recordings')
 MEDIA_URL = '/media/'
