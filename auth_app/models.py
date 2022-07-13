@@ -32,7 +32,7 @@ class Profile(models.Model):
 
     image = models.ImageField(
         upload_to='images',
-        default='images/default_image_qvmqoi.png',
+        default='cloudinary_storage.storage.MediaCloudinaryStorage/images/default_image_qvmqoi.png',
     )
 
     first_name = models.CharField(

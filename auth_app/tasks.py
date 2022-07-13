@@ -13,4 +13,4 @@ def send_greeting_email(email):
     subject = "Registration greetings"
     html_message = "Hello dear user!"
     to = email
-    res = send_mail(subject, '', settings.EMAIL_HOST_USER, [to], html_message=html_message)
+    send_mail(subject, '', settings.EMAIL_HOST_USER, [to], html_message=html_message)

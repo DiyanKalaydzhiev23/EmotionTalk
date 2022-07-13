@@ -137,6 +137,7 @@ class GetEmotionFromRecordingView(views.APIView):
 
     def post(self, request):
         file_serializer = RecordingSerializer(data=request.data)
+
         if file_serializer.is_valid():
             file_serializer.save()
 
@@ -151,8 +152,8 @@ class GetEmotionFromRecordingView(views.APIView):
                 'data': file_serializer.data,
                 'current_emotions_count': current_emotions_count
             }, status=status.HTTP_201_CREATED)
-        else:
-            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GetLastEmotion(views.APIView):
