@@ -9,6 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', decouple.config('SECRET_KEY'))
 
 DEBUG = os.getenv('DEBUG', False)
+DEBUG_WITH_EXTERNAL_DB = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
@@ -79,7 +80,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'EmotionTalk.wsgi.application'
 
-if DEBUG:
+if DEBUG and not DEBUG_WITH_EXTERNAL_DB:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -139,7 +140,7 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv('API_SECRET', decouple.config('API_SECRET'))
 }
 
-if DEBUG:
+if DEBUG and not DEBUG_WITH_EXTERNAL_DB:
     CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
     CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 else:
