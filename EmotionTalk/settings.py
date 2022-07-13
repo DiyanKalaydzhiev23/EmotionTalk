@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-+c8w!bti-rb1+ifig$*3cvabprl_07ygi9uy)%*vcr92v*aoz$'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
@@ -77,7 +77,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'EmotionTalk.wsgi.application'
 
-if DEBUG:
+if not DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -136,12 +136,12 @@ CLOUDINARY_STORAGE = {
     'API_KEY': '593912372856725',
     'API_SECRET': 'iedqyBTS3_zeKMh0t1vR7HjkpZA',
 }
-if DEBUG:
+if not DEBUG:
     CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
     CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 else:
-    CELERY_BROKER_URL = 'redis-15182.c300.eu-central-1-1.ec2.cloud.redislabs.com:15182'
-    CELERY_RESULT_BACKEND = 'redis-15182.c300.eu-central-1-1.ec2.cloud.redislabs.com:15182'
+    CELERY_BROKER_URL = 'redis://default:Lgd9A06cD6i9AgxFSblzBoid1QWTmjNk@redis-15182.c300.eu-central-1-1.ec2.cloud.redislabs.com:15182'
+    CELERY_RESULT_BACKEND = 'redis://default:Lgd9A06cD6i9AgxFSblzBoid1QWTmjNk@redis-15182.c300.eu-central-1-1.ec2.cloud.redislabs.com:15182'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TASK_RESULT_SERIALIZER = 'json'

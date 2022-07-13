@@ -163,6 +163,7 @@ class GetLastEmotion(views.APIView):
         user = Profile.objects.get(user_id=user_id)
 
         if len(user.last_emotions) > last_emotions_count:
+            print(user.last_emotions)
             return Response({
                 'last_emotion': user.last_emotions[-1]
             }, status=status.HTTP_200_OK)
