@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', decouple.config('SECRET_KEY'))
 DEBUG = os.getenv('DEBUG', False)
 DEBUG_WITH_EXTERNAL_DB = os.getenv('DEBUG', False)
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "emotion-talk.herokuapp.com"]
 
 MY_APPS = [
     'EmotionTalk.auth_app',
@@ -52,7 +52,7 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
+    'http://127.0.0.1:3000',
 )
 CORS_ALLOW_HEADERS = (
     'content-disposition', 'accept-encoding',
