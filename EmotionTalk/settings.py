@@ -1,11 +1,10 @@
 import os
-import decouple
 from pathlib import Path
 from EmotionTalk import AI_emotion_recognizer
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = decouple.config("SECRET_KEY")
+SECRET_KEY = 'django-insecure-+c8w!bti-rb1+ifig$*3cvabprl_07ygi9uy)%*vcr92v*aoz$'
 
 DEBUG = True
 
@@ -120,9 +119,9 @@ AUTH_USER_MODEL = 'auth_app.EmotionTalkUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': decouple.config("CLOUD_NAME"),
-    'API_KEY': decouple.config("API_KEY"),
-    'API_SECRET': decouple.config("API_SECRET"),
+    'CLOUD_NAME': 'dhqp5qtsw',
+    'API_KEY': '593912372856725',
+    'API_SECRET': 'iedqyBTS3_zeKMh0t1vR7HjkpZA',
 }
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
