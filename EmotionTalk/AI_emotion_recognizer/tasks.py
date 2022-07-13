@@ -26,7 +26,6 @@ def parse_arguments(filename):
                               os.path.dirname(os.path.realpath(__file__)) + f'\\recordings\\{new_filename}'])
     audio_path = args.audio_path
     target_path = args.target_path
-
     if os.path.isfile(audio_path) and audio_path.endswith(".wav"):
         if not target_path.endswith(".wav"):
             target_path += ".wav"

@@ -1,3 +1,4 @@
+import os
 import random
 
 from django.contrib.auth import get_user_model
@@ -10,7 +11,7 @@ from EmotionTalk.auth_app.models import Profile
 from EmotionTalk.auth_app.serializers import ProfileSerializer, UserSerializer
 from EmotionTalk.emotion_talk_app.serializers import RecordingSerializer
 from EmotionTalk.AI_emotion_recognizer.tasks import recognize_emotion
-
+from EmotionTalk.settings import BASE_DIR
 
 UserModel = get_user_model()
 
@@ -142,6 +143,7 @@ class GetEmotionFromRecordingView(views.APIView):
             file_serializer.save()
 
             file_name = file_serializer.data.get('recording').lstrip('/media/')
+
             owner_id = file_serializer.data.get('owner_id')
 
             current_emotions_count = len(Profile.objects.get(user_id=owner_id).last_emotions)

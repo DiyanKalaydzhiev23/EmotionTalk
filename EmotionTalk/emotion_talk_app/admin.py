@@ -1,3 +1,7 @@
 from django.contrib import admin
+from EmotionTalk.emotion_talk_app.models import Recording
 
-# Register your models here.
+
+@admin.register(Recording)
+class RecordingAdmin(admin.ModelAdmin):
+    pass
