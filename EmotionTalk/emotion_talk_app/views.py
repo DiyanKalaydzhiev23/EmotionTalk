@@ -11,7 +11,7 @@ from EmotionTalk.auth_app.models import Profile
 from EmotionTalk.auth_app.serializers import ProfileSerializer, UserSerializer
 from EmotionTalk.emotion_talk_app.serializers import RecordingSerializer
 from EmotionTalk.AI_emotion_recognizer.tasks import recognize_emotion
-from EmotionTalk.settings import BASE_DIR
+from EmotionTalk.settings import BASE_DIR, dbx
 
 UserModel = get_user_model()
 
