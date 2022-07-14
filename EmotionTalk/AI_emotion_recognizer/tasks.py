@@ -22,11 +22,11 @@ def parse_arguments(filename):
     parser.add_argument("audio_path")
     parser.add_argument("target_path")
 
-    args = parser.parse_args([os.path.dirname(os.path.realpath(__file__)) + f'\\recordings\\{filename}',
-                              os.path.dirname(os.path.realpath(__file__)) + f'\\recordings\\{new_filename}'])
+    args = parser.parse_args([os.path.dirname(os.path.realpath(__file__)) + f'/recordings/{filename}',
+                              os.path.dirname(os.path.realpath(__file__)) + f'/recordings/{new_filename}'])
     audio_path = args.audio_path
     target_path = args.target_path
-    print(audio_path)
+
     if os.path.isfile(audio_path) and audio_path.endswith(".wav"):
         if not target_path.endswith(".wav"):
             target_path += ".wav"
@@ -44,7 +44,7 @@ def recognize_emotion(filename, owner_id):
     new_filename = filename.lstrip('v')
 
     features = extract_feature(
-        os.path.dirname(os.path.realpath(__file__)) + f'\\recordings\\{new_filename}',
+        os.path.dirname(os.path.realpath(__file__)) + f'/recordings/{new_filename}',
         mfcc=True,
         chroma=True,
         mel=True)\
