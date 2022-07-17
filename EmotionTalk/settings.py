@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', decouple.config('SECRET_KEY'))
 
-DEBUG = os.getenv('DEBUG', False)
+DEBUG = os.getenv('DEBUG', True)
 DEBUG_WITH_EXTERNAL_DB = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = ["127.0.0.1", "emotion-talk.herokuapp.com"]

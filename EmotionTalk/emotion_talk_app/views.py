@@ -1,5 +1,7 @@
+import json
 import random
 
+import requests
 from django.contrib.auth import get_user_model
 from rest_framework import views, status
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -146,8 +148,7 @@ class GetEmotionFromRecordingView(views.APIView):
 
             current_emotions_count = len(Profile.objects.get(user_id=owner_id).last_emotions)
 
-            print(file_name)
-            recognize_emotion.delay(file_name, owner_id)
+            recognize_emotion(file_name, owner_id)
 
             return Response({
                 'data': file_serializer.data,
