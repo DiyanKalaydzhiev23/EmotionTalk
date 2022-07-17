@@ -22,8 +22,8 @@ def parse_arguments(filename):
     parser.add_argument("audio_path")
     parser.add_argument("target_path")
 
-    args = parser.parse_args([f'EmotionTalk/AI_emotion_recognizer/recordings/{filename}',
-                              f'EmotionTalk/AI_emotion_recognizer/recordings/{new_filename}'])
+    args = parser.parse_args([f'EmotionTalk/AI_emotion_recognizer/recordings/voice.wav',
+                              f'EmotionTalk/AI_emotion_recognizer/recordings/oice.wav'])
     audio_path = args.audio_path
     target_path = args.target_path
 
