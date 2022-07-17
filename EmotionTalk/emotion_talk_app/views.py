@@ -146,27 +146,11 @@ class GetEmotionFromRecordingView(views.APIView):
 
             current_emotions_count = len(Profile.objects.get(user_id=owner_id).last_emotions)
 
-            recognize_emotion.delay(file_name, owner_id)
+            emotion = recognize_emotion(file_name, owner_id)
 
             return Response({
                 'data': file_serializer.data,
-                'current_emotions_count': current_emotions_count
+                'emotion': emotion
             }, status=status.HTTP_201_CREATED)
 
         return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class GetLastEmotion(views.APIView):
-    permission_classes = []
-
-    def get(self, response, user_id, last_emotions_count):
-        user = Profile.objects.get(user_id=user_id)
-
-        if len(user.last_emotions) > last_emotions_count:
-            return Response({
-                'last_emotion': user.last_emotions[-1]
-            }, status=status.HTTP_200_OK)
-
-        return Response({
-            'last_emotion': 'none'
-        }, status=status.HTTP_404_NOT_FOUND)

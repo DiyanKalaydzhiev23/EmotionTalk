@@ -40,11 +40,8 @@ def parse_arguments(filename):
 def recognize_emotion(filename, owner_id):
     model = pickle.load(open("EmotionTalk/AI_emotion_recognizer/result/mlp_classifier.model", "rb"))
 
-    recording = Recording.objects.get(owner_id=owner_id)
-    recording.save()
-
-    filename = filename.lstrip('/')
-    target_path = parse_arguments(filename)
+    new_filename = filename.lstrip('/')
+    target_path = parse_arguments(new_filename)
 
     features = extract_feature(
         target_path,
@@ -53,6 +50,7 @@ def recognize_emotion(filename, owner_id):
         mel=True)\
         .reshape(1, -1)
 
+    recording = Recording.objects.get(recording=filename)
     recording.delete()
     os.remove(target_path)
 
@@ -65,3 +63,5 @@ def recognize_emotion(filename, owner_id):
 
     user.last_emotions.append(emotion)
     user.save()
+
+    return emotion
