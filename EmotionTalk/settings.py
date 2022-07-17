@@ -1,5 +1,6 @@
 import os
 import decouple
+import whitenoise.runserver_nostatic
 import cloudinary
 from pathlib import Path
 from EmotionTalk import AI_emotion_recognizer
@@ -9,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', decouple.config('SECRET_KEY'))
 
-DEBUG = os.getenv('DEBUG', True)
+DEBUG = os.getenv('DEBUG', False)
 DEBUG_WITH_EXTERNAL_DB = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = ["127.0.0.1", "emotion-talk.herokuapp.com"]
@@ -20,6 +21,7 @@ MY_APPS = [
 ]
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     "corsheaders",
     'django.contrib.admin',
     'django.contrib.auth',
@@ -33,6 +35,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
