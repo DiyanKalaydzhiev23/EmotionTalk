@@ -144,8 +144,6 @@ class GetEmotionFromRecordingView(views.APIView):
             file_name = file_serializer.data.get('recording')
             owner_id = file_serializer.data.get('owner_id')
 
-            current_emotions_count = len(Profile.objects.get(user_id=owner_id).last_emotions)
-
             emotion = recognize_emotion(file_name, owner_id)
 
             return Response({
