@@ -22,8 +22,8 @@ def parse_arguments(filename):
     parser.add_argument("audio_path")
     parser.add_argument("target_path")
 
-    args = parser.parse_args([f'/app/EmotionTalk/AI_emotion_recognizer/recordings/voice.wav',
-                              f'/app/EmotionTalk/AI_emotion_recognizer/recordings/oice.wav'])
+    args = parser.parse_args([f'/app/EmotionTalk/AI_emotion_recognizer/recordings/{filename}',
+                              f'/app/EmotionTalk/AI_emotion_recognizer/recordings/{new_filename}'])
     audio_path = args.audio_path
     target_path = args.target_path
 
@@ -39,7 +39,7 @@ def parse_arguments(filename):
 @shared_task
 def recognize_emotion(filename, owner_id):
     model = pickle.load(open("EmotionTalk/AI_emotion_recognizer/result/mlp_classifier.model", "rb"))
-    print([f for f in os.listdir('/app/EmotionTalk/AI_emotion_recognizer/recordings')])
+    print([str(f) for f in os.listdir('/app/EmotionTalk/AI_emotion_recognizer/recordings')])
     filename = filename.lstrip('/')
     target_path = parse_arguments(filename)
 
