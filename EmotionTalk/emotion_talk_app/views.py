@@ -6,6 +6,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from EmotionTalk import settings
 from EmotionTalk.auth_app.models import Profile
 from EmotionTalk.auth_app.serializers import ProfileSerializer, UserSerializer
 from EmotionTalk.emotion_talk_app.serializers import RecordingSerializer
@@ -145,6 +146,7 @@ class GetEmotionFromRecordingView(views.APIView):
             owner_id = file_serializer.data.get('owner_id')
 
             current_emotions_count = len(Profile.objects.get(user_id=owner_id).last_emotions)
+            print(settings.MEDIA_ROOT)
             print(file_name)
             recognize_emotion.delay(file_name, owner_id)
 
