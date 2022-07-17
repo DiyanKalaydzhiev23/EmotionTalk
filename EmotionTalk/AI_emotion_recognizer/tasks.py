@@ -27,7 +27,7 @@ def parse_arguments(filename):
     audio_path = args.audio_path
     target_path = args.target_path
 
-    if audio_path.endswith(".wav"):
+    if os.path.isfile(audio_path) and audio_path.endswith(".wav"):
         if not target_path.endswith(".wav"):
             target_path += ".wav"
         convert_audio(audio_path, target_path)
@@ -40,11 +40,11 @@ def parse_arguments(filename):
 def recognize_emotion(filename, owner_id):
     model = pickle.load(open("EmotionTalk/AI_emotion_recognizer/result/mlp_classifier.model", "rb"))
 
+    filename = filename.lstrip('/')
     target_path = parse_arguments(filename)
-    new_filename = filename.lstrip('v')
 
     features = extract_feature(
-        os.path.dirname(os.path.realpath(__file__)) + f'/recordings/{new_filename}',
+        target_path,
         mfcc=True,
         chroma=True,
         mel=True)\

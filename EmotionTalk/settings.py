@@ -1,5 +1,6 @@
 import os
 import decouple
+import cloudinary
 from pathlib import Path
 from EmotionTalk import AI_emotion_recognizer
 
@@ -158,4 +159,4 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', decouple.config('EMAIL_HO
 EMAIL_PORT = 587
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'EmotionTalk/AI_emotion_recognizer/recordings')
-MEDIA_URL = '/media/'
+MEDIA_URL = ''

@@ -141,12 +141,11 @@ class GetEmotionFromRecordingView(views.APIView):
         if file_serializer.is_valid():
             file_serializer.save()
 
-            file_name = file_serializer.data.get('recording').lstrip('/media/')
-
+            file_name = file_serializer.data.get('recording')
             owner_id = file_serializer.data.get('owner_id')
 
             current_emotions_count = len(Profile.objects.get(user_id=owner_id).last_emotions)
-
+            print(file_name)
             recognize_emotion.delay(file_name, owner_id)
 
             return Response({
@@ -164,7 +163,6 @@ class GetLastEmotion(views.APIView):
         user = Profile.objects.get(user_id=user_id)
 
         if len(user.last_emotions) > last_emotions_count:
-            print(user.last_emotions)
             return Response({
                 'last_emotion': user.last_emotions[-1]
             }, status=status.HTTP_200_OK)
