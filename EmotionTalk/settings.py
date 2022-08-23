@@ -144,12 +144,8 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv('API_SECRET', decouple.config('API_SECRET'))
 }
 
-if DEBUG and not DEBUG_WITH_EXTERNAL_DB:
-    CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-    CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
-else:
-    CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', decouple.config('CELERY_BROKER_URL'))
-    CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER_URL', decouple.config('CELERY_BROKER_URL'))
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', decouple.config('CELERY_BROKER_URL'))
+CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER_URL', decouple.config('CELERY_BROKER_URL'))
 
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'

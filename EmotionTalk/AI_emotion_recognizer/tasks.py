@@ -1,8 +1,6 @@
 import os
 import pickle
 
-from celery import shared_task
-
 from EmotionTalk.AI_emotion_recognizer.utils import extract_feature
 from EmotionTalk.auth_app.models import Profile
 from EmotionTalk.emotion_talk_app.models import Recording
@@ -36,7 +34,6 @@ def parse_arguments(filename):
         raise TypeError("The audio_path file you specified isn't appropriate for this operation")
 
 
-@shared_task
 def recognize_emotion(filename, owner_id):
     model = pickle.load(open("EmotionTalk/AI_emotion_recognizer/result/mlp_classifier.model", "rb"))
 
