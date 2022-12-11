@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'emotion-talk'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_90D1D0D169774DBDBB709D0A34294105 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2DC38419E5024C16BF4E002ADDB2BC59 }}
