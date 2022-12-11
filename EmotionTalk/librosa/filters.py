@@ -1215,7 +1215,7 @@ def window_sumsquare(window, n_frames, hop_length=512, win_length=None, n_fft=20
 
     # Compute the squared window at the desired length
     win_sq = get_window(window, win_length)
-    win_sq = util.normalize(win_sq, norm=norm)**2
+    win_sq = util.normalize(win_sq, norm=norm) ** 2
     win_sq = util.pad_center(win_sq, n_fft)
 
     # Fill the envelope

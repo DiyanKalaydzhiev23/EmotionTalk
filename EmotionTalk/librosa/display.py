@@ -986,7 +986,7 @@ def __coord_cqt_hz(n, fmin=None, bins_per_octave=12, **_kwargs):
     fmin = fmin * 2.0**(_kwargs.get('tuning', 0.0) / bins_per_octave)
 
     # we drop by half a bin so that CQT bins are centered vertically
-    return core.cqt_frequencies(n+1,
+    return core.cqt_frequencies(n + 1,
                                 fmin=fmin / 2.0**(0.5/bins_per_octave),
                                 bins_per_octave=bins_per_octave)
 
@@ -998,7 +998,7 @@ def __coord_chroma(n, bins_per_octave=12, **_kwargs):
 
 def __coord_tempo(n, sr=22050, hop_length=512, **_kwargs):
     '''Tempo coordinates'''
-    basis = core.tempo_frequencies(n+2, sr=sr, hop_length=hop_length)[1:]
+    basis = core.tempo_frequencies(n + 2, sr=sr, hop_length=hop_length)[1:]
     edges = np.arange(1, n+2)
     return basis * (edges + 0.5) / edges
 
@@ -1025,4 +1025,4 @@ def __coord_n(n, **_kwargs):
 
 def __coord_time(n, sr=22050, hop_length=512, **_kwargs):
     '''Get time coordinates from frames'''
-    return core.frames_to_time(np.arange(n+1), sr=sr, hop_length=hop_length)
+    return core.frames_to_time(np.arange(n + 1), sr=sr, hop_length=hop_length)

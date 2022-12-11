@@ -13,7 +13,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', decouple.config('SECRET_KEY'))
 DEBUG = os.getenv('DEBUG', True)
 DEBUG_WITH_EXTERNAL_DB = os.getenv('DEBUG', False)
 
-ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']]
+ALLOWED_HOSTS = ["*"]
 
 MY_APPS = [
     'EmotionTalk.auth_app',
@@ -157,5 +157,5 @@ EMAIL_HOST_USER = 'quizmasterappteam@gmail.com'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', decouple.config('EMAIL_HOST_PASSWORD'))
 EMAIL_PORT = 587
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'EmotionTalk/AI_emotion_recognizer/recordings')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'EmotionTalk/EmotionTalk/AI_emotion_recognizer/AI_emotion_recognizer/recordings')
 MEDIA_URL = '/'

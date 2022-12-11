@@ -533,7 +533,7 @@ def plp(y=None, sr=22050, onset_envelope=None, hop_length=512,
     ftgram[ftmag < peak_values] = 0
 
     # Normalize to keep only phase information
-    ftgram /= (util.tiny(ftgram)**0.5 + np.abs(ftgram.max(axis=0, keepdims=True)))
+    ftgram /= (util.tiny(ftgram) ** 0.5 + np.abs(ftgram.max(axis=0, keepdims=True)))
 
     # Step 5: invert the Fourier tempogram to get the pulse
     pulse = core.istft(ftgram, hop_length=1,
