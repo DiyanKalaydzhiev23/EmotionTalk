@@ -99,10 +99,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('POSTGRES_NAME', decouple.config('POSTGRES_NAME')),
-            'USER': os.getenv('POSTGRES_USER', decouple.config('POSTGRES_USER')),
-            'PASSWORD': os.getenv('POSTGRES_PASSWORD', decouple.config('POSTGRES_PASSWORD')),
-            'HOST': os.getenv('POSTGRES_HOST', decouple.config('POSTGRES_HOST')),
+            'NAME': os.getenv('DBNAME', decouple.config('DBNAME')),
+            'USER': os.getenv('DBUSER', decouple.config('DBUSER')),
+            'PASSWORD': os.getenv('DBPASS', decouple.config('DBPASS')),
+            'HOST': os.getenv('DBHOST', decouple.config('DBHOST')) + ".postgres.database.azure.com",
             'PORT': '5432',
         }
     }
