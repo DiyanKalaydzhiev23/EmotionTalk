@@ -9,6 +9,8 @@ from EmotionTalk import AI_emotion_recognizer
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', decouple.config('SECRET_KEY'))
+CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else [] + \
+                       ['https://emotiontalk.ml/', 'localhost']
 
 DEBUG = os.getenv('DEBUG', True)
 DEBUG_WITH_EXTERNAL_DB = os.getenv('DEBUG', False)
