@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', decouple.config('SECRET_KEY'))
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else [] + \
-                       ['https://emotiontalk.ml/', 'localhost']
+                       ['https://emotiontalk.ml/']
 
 DEBUG = os.getenv('DEBUG', True)
 DEBUG_WITH_EXTERNAL_DB = os.getenv('DEBUG', False)
@@ -133,7 +133,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = 'staticfiles/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 AUTH_USER_MODEL = 'auth_app.EmotionTalkUser'

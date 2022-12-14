@@ -261,14 +261,14 @@ def tempo(y=None, sr=22050, onset_envelope=None, hop_length=512, start_bpm=120,
 
     Examples
     --------
-    >>> # Estimate a static tempo
+    >>> # Estimate a staticfiles tempo
     >>> y, sr = librosa.load(librosa.util.example_audio_file())
     >>> onset_env = librosa.onset.onset_strength(y, sr=sr)
     >>> tempo = librosa.beat.tempo(onset_envelope=onset_env, sr=sr)
     >>> tempo
     array([129.199])
 
-    >>> # Or a static tempo with a uniform prior instead
+    >>> # Or a staticfiles tempo with a uniform prior instead
     >>> import scipy.stats
     >>> prior = scipy.stats.uniform(30, 300)  # uniform over 30-300 BPM
     >>> utempo = librosa.beat.tempo(onset_envelope=onset_env, sr=sr, prior=prior)
