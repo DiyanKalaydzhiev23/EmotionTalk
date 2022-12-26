@@ -26,11 +26,14 @@ def parse_arguments(filename):
     target_path = args.target_path
 
     print("The audio file path is: ", audio_path)
+    print("The files on the system are: ", ', '.join(os.listdir("/dev/sdb")))
 
     if os.path.isfile(audio_path) and audio_path.endswith(".wav"):
         if not target_path.endswith(".wav"):
             target_path += ".wav"
+            
         convert_audio(audio_path, target_path)
+
         return target_path
     else:
         raise TypeError("The audio_path file you specified isn't appropriate for this operation")
