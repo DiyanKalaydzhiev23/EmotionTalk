@@ -26,7 +26,7 @@ def parse_arguments(filename):
     target_path = args.target_path
 
     print("The audio file path is: ", audio_path)
-    print("The files on the system are: ", ', '.join(os.listdir("/dev/sdb")))
+    print("The files on the system are: ", ', '.join(os.listdir("/tmp")))
 
     if os.path.isfile(audio_path) and audio_path.endswith(".wav"):
         if not target_path.endswith(".wav"):
