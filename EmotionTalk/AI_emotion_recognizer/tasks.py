@@ -1,6 +1,8 @@
 import os
 import pickle
 
+import decouple
+
 from EmotionTalk.AI_emotion_recognizer.utils import extract_feature
 from EmotionTalk.auth_app.models import Profile
 from EmotionTalk.emotion_talk_app.models import Recording
@@ -20,14 +22,10 @@ def parse_arguments(filename):
     parser.add_argument("audio_path")
     parser.add_argument("target_path")
 
-    args = parser.parse_args([f'EmotionTalk/AI_emotion_recognizer/recordings/{filename}',
-                              f'EmotionTalk/AI_emotion_recognizer/recordings/{new_filename}'])
+    args = parser.parse_args([os.getenv('FILE_PATH', decouple.config('FILE_PATH')) + filename,
+                              os.getenv('FILE_PATH', decouple.config('FILE_PATH')) + new_filename])
     audio_path = args.audio_path
     target_path = args.target_path
-
-    print("The audio file path is: ", audio_path)
-    print("The files on the system are: ", ', '.join(os.listdir("/tmp")))
-    print("The current dir path is: ", os.getcwd())
 
     if os.path.isfile(audio_path) and audio_path.endswith(".wav"):
         if not target_path.endswith(".wav"):
